@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
+import autoConfig from './../../config/auth.js';
 import User from '../models/User.js';
 
 class SessionController {
@@ -41,11 +43,21 @@ class SessionController {
       emailOrPasseordIncorrect();
     }
 
+    // ---------------------------------------------------------
+    // Backend CrazyUp - Geração do Token JWT com Novo Secret
+    // ---------------------------------------------------------
+    const token = jwt.sign(
+      { id: existingUser.id, admin: existingUser.admin }, // Payload com os dados do utilizador
+      autoConfig.secret, // O nosso novo Secret MD5 exclusivo da API
+      { expiresIn: autoConfig.expiresIn }, // Tempo de validade do token
+    );
+
     return response.status(200).json({
       id: existingUser.id,
       name: existingUser.name,
       email: existingUser.email,
       admin: existingUser.admin,
+      token,
     });
   }
 }
