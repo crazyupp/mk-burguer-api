@@ -1,5 +1,6 @@
+import mongoose from 'mongoose';
 import { Sequelize } from 'sequelize';
-import Category from '../app/models/category.js';
+import Category from '../app/models/Category.js';
 import Product from '../app/models/Product.js';
 import User from '../app/models/User.js';
 import databaseConfig from '../config/database.cjs';
@@ -9,6 +10,7 @@ const models = [User, Product, Category];
 class Database {
   constructor() {
     this.init();
+    this.mongo();
   }
 
   // // Inicialização do banco de dados e vinculação dos modelos do Sequelize
@@ -23,5 +25,10 @@ class Database {
         (model) => model.associate && model.associate(this.connection.models), // Se o método '.associate' existir no modelo, chama ele passando todos os modelos carregados.
       ); // Finaliza o encadeamento dos métodos.
   } // Fecha o bloco do método 'init'.
+  mongo() {
+    this.mongooseCoonnection = mongoose.connect(
+      'mongodb://localhost:27017/mk-burguer',
+    );
+  }
 }
 export default new Database();

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 // Importa o nosso arquivo de configurações de autenticação.
 // É lá que guardamos a chave secreta (secret) usada para criptografar e descriptografar os tokens.
-import authConfig from './../config/auth.js';
+import authConfig from '../../config/auth.js';
 
 // Cria a função do Middleware, que atuará como um "guarda-costas" antes de acessar rotas protegidas.
 // Recebe a requisição (request), a resposta (response) e a função next (para permitir que o código continue a execução).
@@ -33,6 +33,7 @@ const authMiddelware = (request, response, next) => {
       }
       console.log(decoded);
       request.userIsAdmin = decoded.admin;
+      request.userName = decoded.name;
       request.userId = decoded.id;
       // Exibe no terminal as informações decodificadas do token (como o id do usuário, data de criação e validade).
       //console.log('DECODED:', decoded);

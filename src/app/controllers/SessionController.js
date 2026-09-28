@@ -47,7 +47,11 @@ class SessionController {
     // Backend CrazyUp - Geração do Token JWT com Novo Secret
     // ---------------------------------------------------------
     const token = jwt.sign(
-      { id: existingUser.id, admin: existingUser.admin }, // Payload com os dados do utilizador
+      {
+        id: existingUser.id,
+        admin: existingUser.admin,
+        name: existingUser.name,
+      }, // Payload com os dados do utilizador
       autoConfig.secret, // O nosso novo Secret MD5 exclusivo da API
       { expiresIn: autoConfig.expiresIn }, // Tempo de validade do token
     );
